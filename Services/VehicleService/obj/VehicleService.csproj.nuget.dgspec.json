@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\services\\VehicleService\\VehicleService.csproj": {}
+    "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\Services\\VehicleService\\VehicleService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\services\\VehicleService\\VehicleService.csproj": {
+    "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\Services\\VehicleService\\VehicleService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\services\\VehicleService\\VehicleService.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\Services\\VehicleService\\VehicleService.csproj",
         "projectName": "VehicleService",
-        "projectPath": "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\services\\VehicleService\\VehicleService.csproj",
+        "projectPath": "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\Services\\VehicleService\\VehicleService.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\services\\VehicleService\\obj\\",
+        "outputPath": "C:\\Users\\Administrator\\Desktop\\FleetManagementSystem\\Services\\VehicleService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,9 +50,39 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Extensions.Caching.StackExchangeRedis": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "StackExchange.Redis": {
+              "target": "Package",
+              "version": "[2.8.16, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
