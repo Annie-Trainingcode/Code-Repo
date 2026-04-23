@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DriverService.DTOs;
-//using DriverService.Messaging;
+using DriverService.Messaging;
 using DriverService.Models;
 using DriverService.Repositories;
 
@@ -13,16 +13,16 @@ namespace DriverService.Controllers
     public class DriversController : ControllerBase
     {
         private readonly IDriverRepository _repository;
-       // private readonly IMessagePublisher _messagePublisher;
+        private readonly IMessagePublisher _messagePublisher;
         private readonly ILogger<DriversController> _logger;
 
         public DriversController(
             IDriverRepository repository,
-          //  IMessagePublisher messagePublisher,
+          IMessagePublisher messagePublisher,
             ILogger<DriversController> logger)
         {
             _repository = repository;
-          //  _messagePublisher = messagePublisher;
+          _messagePublisher = messagePublisher;
             _logger = logger;
         }
 
@@ -130,7 +130,7 @@ namespace DriverService.Controllers
                 var driverDto = MapToDto(createdDriver);
 
                 // Publish event to RabbitMQ for AlertService
-                /* await _messagePublisher.PublishAsync("driver-notifications", "driver.created", new
+             await _messagePublisher.PublishAsync("driver-notifications", "driver.created", new
                 {
                     Event = "DriverCreated",
                     DriverId = driverDto.Id,
@@ -140,7 +140,7 @@ namespace DriverService.Controllers
                     Timestamp = DateTime.UtcNow,
                     Message = $"New driver {driverDto.Name} has been registered"
                 });
- */
+ 
                 return CreatedAtAction(nameof(GetDriver), new { id = createdDriver.Id }, driverDto);
             }
             catch (Exception ex)
@@ -179,7 +179,7 @@ namespace DriverService.Controllers
                 var driverDto = MapToDto(existingDriver);
 
                 // Publish event to RabbitMQ for AlertService
-               /* await _messagePublisher.PublishAsync("driver-notifications", "driver.updated", new
+            await _messagePublisher.PublishAsync("driver-notifications", "driver.updated", new
                 {
                     Event = "DriverUpdated",
                     DriverId = driverDto.Id,
@@ -188,7 +188,7 @@ namespace DriverService.Controllers
                     Timestamp = DateTime.UtcNow,
                     Message = $"Driver {driverDto.Name} information has been updated"
                 });
-*/
+
                 return Ok(driverDto);
             }
             catch (Exception ex)
