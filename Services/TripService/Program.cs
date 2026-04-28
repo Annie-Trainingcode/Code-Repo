@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using TripService.Data;
 using TripService.Repositories;
-//using TripService.Messaging;
+using TripService.Messaging;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<ITripRepository, TripRepository>();
+builder.Services.AddSingleton<IKafkaProducer, KafkaProducer>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -100,7 +101,16 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<TripDbContext>();
-    dbContext.Database.EnsureCreated();
+   
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<TripDbContext>();
+        dbContext.Database.EnsureCreated();
+    }
+    catch (Exception ex)
+    {
+        logger.LogWarning(ex, "Database initialization failed. Service will continue running so Swagger and health checks remain available.");
+    }
 }
 app.Run();

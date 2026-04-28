@@ -124,8 +124,18 @@ app.MapControllers();
 // Initialize database
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<VehicleDbContext>();
-    dbContext.Database.EnsureCreated();
+   
+  var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<VehicleDbContext>();
+        dbContext.Database.EnsureCreated();
+    }
+    catch (Exception ex)
+    {
+        logger.LogWarning(ex, "Database initialization failed. Service will continue running so Swagger and health checks remain available.");
+    }
+
 }
 
 app.Run();

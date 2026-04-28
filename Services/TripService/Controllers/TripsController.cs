@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TripService.DTOs;
-//using TripService.Messaging;
+using TripService.Messaging;
 using TripService.Models;
 using TripService.Repositories;
 
@@ -13,16 +13,16 @@ namespace TripService.Controllers
     public class TripsController : ControllerBase
     {
         private readonly ITripRepository _repository;
-       // private readonly IKafkaProducer _kafkaProducer;
+       private readonly IKafkaProducer _kafkaProducer;
         private readonly ILogger<TripsController> _logger;
 
         public TripsController(
             ITripRepository repository,
-           // IKafkaProducer kafkaProducer,
+            IKafkaProducer kafkaProducer,
             ILogger<TripsController> logger)
         {
             _repository = repository;
-           // _kafkaProducer = kafkaProducer;
+         _kafkaProducer = kafkaProducer;
             _logger = logger;
         }
 
@@ -130,7 +130,7 @@ namespace TripService.Controllers
                 var tripDto = MapToDto(createdTrip);
 
                 // Publish event to Kafka for AlertService
-                /* await _kafkaProducer.ProduceAsync("trip-notifications", new 
+             await _kafkaProducer.ProduceAsync("trip-notifications", new 
                 { 
                     Event = "TripStarted", 
                     TripId = tripDto.TripID,
@@ -141,7 +141,7 @@ namespace TripService.Controllers
                     Timestamp = DateTime.UtcNow,
                     Message = $"Trip started from {tripDto.StartLocation}"
                 });
- */
+
                 return CreatedAtAction(nameof(GetTrip), new { id = createdTrip.TripID }, tripDto);
             }
             catch (Exception ex)
@@ -178,7 +178,7 @@ namespace TripService.Controllers
                 var tripDto = MapToDto(updatedTrip);
 
                 // Publish event to Kafka for AlertService
-              /*   await _kafkaProducer.ProduceAsync("trip-notifications", new 
+                 await _kafkaProducer.ProduceAsync("trip-notifications", new 
                 { 
                     Event = "TripCompleted", 
                     TripId = tripDto.TripID,
@@ -189,7 +189,7 @@ namespace TripService.Controllers
                     Timestamp = DateTime.UtcNow,
                     Message = $"Trip completed. Distance: {tripDto.DistanceTraveled} km"
                 });
- */
+
                 return Ok(tripDto);
             }
             catch (Exception ex)
